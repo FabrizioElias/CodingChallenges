@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Reactive.Linq;
 
-var challengeName = "Test";
+var challengeName = "LargestNumber";
 
 var sourcesPath = Path.Combine(Environment.CurrentDirectory, "Sources", challengeName);
 var inputFile = Path.Combine(Environment.CurrentDirectory, "Input", challengeName, "inputs.txt");
@@ -22,8 +22,9 @@ var results = inputLines.Select(x =>
         TargetTime = TimeSpan.FromMilliseconds(double.Parse(split[0])),
         Inputs = new object[]
         {
-            new string[] { split[1] } //This type must be the same as the type in ImplementThis
-        }
+            split[1].Split(",").Select(x => int.Parse(x)).ToArray() //This type must be the same as the type in ImplementThis
+        },
+        ExpectedOutput = split[2]
     };
 });
 
@@ -43,54 +44,46 @@ using (var watcher = new ObservableFileSystemWatcher(c => { c.Path = sourcesPath
         key = Console.ReadKey(true);
         if (key.Key == ConsoleKey.R)
             Run(Path.Combine(sourcesPath, "Challenge.cs"));
-    } while (key.Key == ConsoleKey.R);
+        if (key.Key == ConsoleKey.S)
+            Console.WriteLine(LargestNumberSolution.ChallengeClass.ProduceInputFile());
+    } while (key.Key == ConsoleKey.R || key.Key == ConsoleKey.S);
 }
 
 void Run(string filepath)
 {
-    var stopwatch = new Stopwatch();
     var compiledAssembly = compiler.Compile(filepath);
     foreach (var result in results)
     {
-        var accummulatedTime = TimeSpan.Zero;
+        var elapsedTime = TimeSpan.Zero;
         Console.WriteLine($"############## Running 5x with input {result.PrintInput()}");
-        for (int i = 0; i < 5; i++)
+        var thread = new Thread(() =>
         {
-            var thread = new Thread(() =>
+            try
             {
-                try
-                {
-                    Console.WriteLine($"##############");
-                    stopwatch.Start();
-                    result.Output = runner.Execute(compiledAssembly, result.Inputs);
-                    stopwatch.Stop();
-                    Console.WriteLine($"##############");
-                    accummulatedTime += stopwatch.Elapsed;
-                    result.Completed = true;
-                }
-                catch
-                {
-                    Console.WriteLine($"Error running code with input {result.PrintInput()}. Edit and try again.");
-                    result.Completed = false;
-                }
-                finally
-                {
-                    stopwatch.Reset();
-                }
-            });
-
-            thread.Start();
-            var hasRunWithinTime = thread.Join(TimeSpan.FromSeconds(5));
-            if (!hasRunWithinTime)
-            {
-                Console.WriteLine("Code has not finished within 5 seconds.");
-                result.Completed = false;
-                break;
+                Console.WriteLine($"##############");
+                var output = runner.Execute(challengeName, compiledAssembly, result.Inputs);
+                result.Output = output.Result;
+                elapsedTime += output.elapsedTime;
+                result.Completed = true;
             }
+            catch
+            {
+                Console.WriteLine($"Error running code with input {result.PrintInput()}. Edit and try again.");
+                result.Completed = false;
+            }
+        });
+
+        thread.Start();
+        var hasRunWithinTime = thread.Join(TimeSpan.FromSeconds(10));
+        if (!hasRunWithinTime)
+        {
+            Console.WriteLine("Code has not finished within 10 seconds.");
+            result.Completed = false;
+            break;
         }
         if (result.Completed)
         {
-            result.ElapsedTime = accummulatedTime / 5;
+            result.ElapsedTime = elapsedTime;
             Console.WriteLine(result.Print());
         }
 

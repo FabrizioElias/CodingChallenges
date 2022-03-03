@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Challenge
+namespace Test
 {
 	public static class ChallengeClass
 	{

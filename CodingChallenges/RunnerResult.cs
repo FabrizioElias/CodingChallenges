@@ -10,13 +10,14 @@ namespace CodingChallenges
     {
         public dynamic[]? Inputs { get; set; } = null;
         public TimeSpan TargetTime { get; set; }
+        public dynamic? ExpectedOutput { get; set; }
         public dynamic? Output { get; set; }
         public TimeSpan? ElapsedTime { get; set; }
         public bool Completed { get; set; }
 
         public string Print()
         {
-            return $"[{ElapsedTime?.Ticks ?? 5000} ticks][{(Completed && ElapsedTime != null && ElapsedTime.Value <= TargetTime ? " OK" : "NOK")}]{Output ?? "No output"}";
+            return $"[{ElapsedTime?.Ticks ?? -500} ticks][target {TargetTime.Ticks}][{(Completed && ElapsedTime != null && ElapsedTime.Value <= TargetTime * 1.2 && ExpectedOutput == Output ? " OK" : "NOK")}]{Output ?? "No output"}";
         }
 
         public string PrintInput()

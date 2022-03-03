@@ -13,12 +13,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Sources\LargestNumber\Solution.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="Sources\LargestNumber\Challenge.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="Sources\Test\Challenge.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Input\LargestNumber\inputs.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Input\Test\inputs.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
