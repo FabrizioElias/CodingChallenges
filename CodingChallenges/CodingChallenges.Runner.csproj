@@ -8,22 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Sources\Challenge.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Sources\Challenge.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.1.0" />
     <PackageReference Include="System.Reactive.Linq" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Input\inputs.txt">
+    <Compile Update="Sources\Test\Challenge.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Input\Test\inputs.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

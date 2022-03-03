@@ -4,9 +4,9 @@ namespace CodingChallenges
 {
     internal class Runner
     {
-        public object Execute(byte[] compiledAssembly, object argument)
+        public object Execute(byte[] compiledAssembly, object?[]? arguments)
         {
-            var resultObject = LoadAndExecute(compiledAssembly, argument);
+            var resultObject = LoadAndExecute(compiledAssembly, arguments);
 
             for (var i = 0; i < 8 && resultObject.AssemblyRef.IsAlive; i++)
             {
@@ -19,7 +19,7 @@ namespace CodingChallenges
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static (WeakReference AssemblyRef, object Result) LoadAndExecute(byte[] compiledAssembly, object argument)
+        private static (WeakReference AssemblyRef, object Result) LoadAndExecute(byte[] compiledAssembly, object?[]? arguments)
         {
             object result = null;
             using (var asm = new MemoryStream(compiledAssembly))
@@ -28,13 +28,13 @@ namespace CodingChallenges
 
                 var assembly = assemblyLoadContext.LoadFromStream(asm);
 
-                var entry = assembly.DefinedTypes.FirstOrDefault(dt => dt.Name == "ChallengeClass")?.GetMethod("Challenge");
+                var entry = assembly.DefinedTypes.FirstOrDefault(dt => dt.Name == "ChallengeClass")?.GetMethod("ChallengeRunner");
 
                 if (entry != null)
                 {
 
                     result = entry.GetParameters().Length > 0
-                        ? entry.Invoke(null, new object[] { argument })
+                        ? entry.Invoke(null, arguments)
                         : entry.Invoke(null, null);
                 }
                 else
