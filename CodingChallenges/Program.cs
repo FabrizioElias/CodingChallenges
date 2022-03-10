@@ -2,13 +2,14 @@
 using System.Diagnostics;
 using System.Reactive.Linq;
 
-var challengeName = "LargestNumber";
+var challengeName = "SherlockString";
 
 var sourcesPath = Path.Combine(Environment.CurrentDirectory, "Sources", challengeName);
 var inputFile = Path.Combine(Environment.CurrentDirectory, "Input", challengeName, "inputs.txt");
 
-Console.WriteLine($"Running from: {Environment.CurrentDirectory}");
+Console.WriteLine($"Running {challengeName} from: {Environment.CurrentDirectory}");
 Console.WriteLine($"Sources from: {sourcesPath}");
+Console.WriteLine($"Input from: {inputFile}");
 Console.WriteLine("Modify the sources to compile and run it!");
 
 var compiler = new Compiler();
@@ -45,7 +46,10 @@ using (var watcher = new ObservableFileSystemWatcher(c => { c.Path = sourcesPath
         if (key.Key == ConsoleKey.R)
             Run(Path.Combine(sourcesPath, "Challenge.cs"));
         if (key.Key == ConsoleKey.S)
-            Console.WriteLine(LargestNumberSolution.ChallengeClass.ProduceInputFile());
+        {
+            Console.WriteLine("***** Running solution *****");
+            Console.WriteLine(SherlockStringSolution.ChallengeClass.ProduceInputFile());
+        }
     } while (key.Key == ConsoleKey.R || key.Key == ConsoleKey.S);
 }
 
