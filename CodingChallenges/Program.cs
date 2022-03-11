@@ -23,7 +23,7 @@ var results = inputLines.Select(x =>
         TargetTime = TimeSpan.FromMilliseconds(double.Parse(split[0])),
         Inputs = new object[]
         {
-            split[1].Split(",").Select(x => int.Parse(x)).ToArray() //This type must be the same as the type in ImplementThis
+            split[1] //This type must be the same as the type in ImplementThis
         },
         ExpectedOutput = split[2]
     };
