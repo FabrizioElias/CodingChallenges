@@ -4,27 +4,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
-namespace LargestNumber
+namespace SherlockAnagram
 {
     public static class ChallengeClass
     {
-        public static string ImplementThis(int[] numbers)
+        public static int ImplementThis(string inputText)
         {
-            var resultList = new string[numbers.Length];
-            for (int i = 0; i < resultList.Length; i++)
-                resultList[i] = numbers[i].ToString();
-            Array.Sort(resultList, new DigitComparer());
-            if (resultList[0] == "0")
-                return "0";
-            return string.Join("", resultList);
-        }
-
-        public class DigitComparer : IComparer<string>
-        {
-            public int Compare(string A, string B)
-            {
-                return (A + B).CompareTo(B + A) <= 0 ? 1 : -1;
-            }
+            return 0;
         }
 
         public static ThreadResult ChallengeRunner(dynamic input)
@@ -33,7 +19,8 @@ namespace LargestNumber
             var stopwatch = new Stopwatch();
             dynamic? output = null;
             output = ChallengeClass.ImplementThis(input);
-            for (int i = 0; i < 5000; i++)
+            var runs = 50;
+            for (int i = 0; i < runs; i++)
             {
                 try
                 {
@@ -44,10 +31,11 @@ namespace LargestNumber
                 }
                 finally
                 {
+                    Utility.ReportProgress(i, runs, input);
                     stopwatch.Reset();
                 }
             }
-            return new ThreadResult { Output = output, ElapsedTime = accummulatedTime / 5000 };
+            return new ThreadResult { Output = output, ElapsedTime = accummulatedTime / runs };
         }
     }
 }

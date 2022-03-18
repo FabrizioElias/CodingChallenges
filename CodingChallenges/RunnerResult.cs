@@ -1,37 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace CodingChallenges
 {
-    internal class RunnerResult
+    public class RunnerResult
     {
-        public dynamic[]? Inputs { get; set; } = null;
+        public dynamic? Input { get; set; } = null;
         public TimeSpan TargetTime { get; set; }
         public dynamic? ExpectedOutput { get; set; }
         public dynamic? Output { get; set; }
         public TimeSpan? ElapsedTime { get; set; }
         public bool Completed { get; set; }
+        public bool IsOk => Completed && ElapsedTime != null && ElapsedTime.Value <= TargetTime * 1.2 && ExpectedOutput == Output;
+
+        public static string PrintSummary(IEnumerable<RunnerResult> results)
+        {
+            var count = Convert.ToDouble(results.Count());
+            var ok = results.Count(r => r.IsOk);
+            if (ok == 0)
+                return "No OK results.";
+            return $"[{results.Sum(r => (r.ElapsedTime ?? TimeSpan.Zero).Ticks) / ok} average OK ticks]\n" +
+                $"[{ok} Oks and {count - ok} Noks]\n" +
+                $"[{ok / count:P2} of OK results]";
+        }
 
         public string Print()
         {
-            return $"[{ElapsedTime?.Ticks ?? -500} ticks][target {TargetTime.Ticks}][{(Completed && ElapsedTime != null && ElapsedTime.Value <= TargetTime * 1.2 && ExpectedOutput == Output ? " OK" : "NOK")}]{Output ?? "No output"}";
+            return $"[{ElapsedTime?.Ticks ?? -500} ticks][target {TargetTime.Ticks}][Result: {Output ?? "No output"} == {ExpectedOutput} :Expected][{(IsOk ? " OK" : "NOK")}]";
         }
 
         public string PrintInput()
         {
-            if (Inputs == null || Inputs.Length == 0)
+            if (Input == null)
                 return "No inputs";
             StringBuilder str = new StringBuilder();
-            foreach (var input in Inputs)
-            {
-                if (input.GetType().IsArray)
-                    str.Append(string.Join(", ", input));
-                else
-                    str.Append($"{input.ToString()} | ");
-            }
+            if (Input.GetType().IsArray)
+                str.Append(string.Join(", ", Input));
+            else
+                str.Append($"{Input}");
             return str.ToString();
         }
     }

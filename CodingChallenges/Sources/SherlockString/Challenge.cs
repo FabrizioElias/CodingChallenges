@@ -39,7 +39,7 @@ namespace SherlockString
             return "YES";
         }
 
-        public static ResultClass ChallengeRunner(dynamic input)
+        public static ThreadResult ChallengeRunner(dynamic input)
         {
             var accummulatedTime = TimeSpan.Zero;
             var stopwatch = new Stopwatch();
@@ -59,7 +59,7 @@ namespace SherlockString
                     stopwatch.Reset();
                 }
             }
-            return new ResultClass { Output = output, ElapsedTime = accummulatedTime / 5000 };
+            return new ThreadResult { Output = output, ElapsedTime = accummulatedTime / 5000 };
         }
     }
 }

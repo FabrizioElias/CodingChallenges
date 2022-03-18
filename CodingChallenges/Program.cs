@@ -1,74 +1,48 @@
 ﻿using CodingChallenges;
-using System.Diagnostics;
-using System.Reactive.Linq;
 
-var challengeName = "SherlockString";
+var challengeName = "SherlockAnagram";
 
-var sourcesPath = Path.Combine(Environment.CurrentDirectory, "Sources", challengeName);
 var inputFile = Path.Combine(Environment.CurrentDirectory, "Input", challengeName, "inputs.txt");
+var solutionFn = SherlockAnagramSolution.ChallengeClass.ProduceInputFile;
+var challengeFn = SherlockAnagram.ChallengeClass.ChallengeRunner;
 
-Console.WriteLine($"Running {challengeName} from: {Environment.CurrentDirectory}");
-Console.WriteLine($"Sources from: {sourcesPath}");
-Console.WriteLine($"Input from: {inputFile}");
-Console.WriteLine("Modify the sources to compile and run it!");
+var results = await SherlockAnagramSolution.ChallengeClass.ParseInputFile(inputFile);
 
-var compiler = new Compiler();
-var runner = new Runner();
-var inputLines = await File.ReadAllLinesAsync(inputFile);
-var results = inputLines.Select(x =>
+ConsoleKeyInfo key = new ConsoleKeyInfo('r', ConsoleKey.R, false, false, false);
+
+do
 {
-    var split = x.Split("|");
-    return new RunnerResult
+    Console.WriteLine(challengeName);
+    Console.WriteLine("Press any key to exit or press R to run now (S to solution)!");
+    key = Console.ReadKey(true);
+    Console.Clear();
+    Console.CursorLeft = 0;
+    Console.CursorTop = 0;
+    if (key.Key == ConsoleKey.R)
     {
-        TargetTime = TimeSpan.FromMilliseconds(double.Parse(split[0])),
-        Inputs = new object[]
-        {
-            split[1] //This type must be the same as the type in ImplementThis
-        },
-        ExpectedOutput = split[2]
-    };
-});
-
-using (var watcher = new ObservableFileSystemWatcher(c => { c.Path = sourcesPath; }))
-{
-    var changes = watcher.Changed.Throttle(TimeSpan.FromSeconds(.5)).Where(c => c.FullPath.EndsWith(@"Challenge.cs")).Select(c => c.FullPath);
-
-    changes.Subscribe(Run);
-
-    watcher.Start();
-
-    ConsoleKeyInfo key = new ConsoleKeyInfo('r', ConsoleKey.R, false, false, false);
-
-    do
+        Console.WriteLine("***** Running Challenge directly *****");
+        Run();
+    }
+    if (key.Key == ConsoleKey.S)
     {
-        Console.WriteLine("Press any key to exit or press R to run now!");
-        key = Console.ReadKey(true);
-        if (key.Key == ConsoleKey.R)
-            Run(Path.Combine(sourcesPath, "Challenge.cs"));
-        if (key.Key == ConsoleKey.S)
-        {
-            Console.WriteLine("***** Running solution *****");
-            Console.WriteLine(SherlockStringSolution.ChallengeClass.ProduceInputFile());
-        }
-    } while (key.Key == ConsoleKey.R || key.Key == ConsoleKey.S);
-}
+        Console.WriteLine("***** Running solution *****");
+        Console.WriteLine(solutionFn());
+    }
+} while (key.Key == ConsoleKey.R || key.Key == ConsoleKey.S);
 
-void Run(string filepath)
+void Run()
 {
-    var compiledAssembly = compiler.Compile(filepath);
     foreach (var result in results)
     {
         var elapsedTime = TimeSpan.Zero;
-        Console.WriteLine($"############## Running 5x with input {result.PrintInput()}");
+        ThreadResult output = new ThreadResult();
         var thread = new Thread(() =>
         {
             try
             {
-                Console.WriteLine($"##############");
-                var output = runner.Execute(challengeName, compiledAssembly, result.Inputs);
-                result.Output = output.Result;
-                elapsedTime += output.elapsedTime;
-                result.Completed = true;
+                output = challengeFn(result.Input);
+                output.Completed = true;
+                elapsedTime += output.ElapsedTime;
             }
             catch
             {
@@ -85,12 +59,22 @@ void Run(string filepath)
             result.Completed = false;
             break;
         }
-        if (result.Completed)
+        if (output?.Completed ?? false)
         {
             result.ElapsedTime = elapsedTime;
-            Console.WriteLine(result.Print());
+            result.Output = output.Output;
+            result.Completed = true;
         }
-
-        Console.WriteLine("##############");
+    }
+    Console.WriteLine("Done! See (r)esults or (s)ummary?");
+    var key = Console.ReadKey(true);
+    if (key.Key == ConsoleKey.R)
+    {
+        foreach (var result in results)
+            Console.WriteLine(result.Print());
+    }
+    if (key.Key == ConsoleKey.S)
+    {
+        Console.WriteLine(RunnerResult.PrintSummary(results));
     }
 }

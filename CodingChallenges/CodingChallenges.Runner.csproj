@@ -19,6 +19,12 @@
     <Compile Update="Sources\LargestNumber\Challenge.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="Sources\SherlockAnagram\Challenge.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="Sources\SherlockAnagram\Solution.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="Sources\SherlockString\Challenge.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -31,6 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Input\SherlockAnagram\inputs.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Input\LargestNumber\inputs.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
