@@ -13,18 +13,18 @@ namespace SherlockAnagramSolution
         {
             //max test length is always length-1 since the full string is not an anagram
             int foundAnagrams = 0;
-            for (int testLength = 1; testLength < inputText.Length; testLength++)
+            for (int testLength = 1; testLength < inputText.Length; testLength++) //Teste a partir da posição 1 (final)
             {
-                int maxLength = inputText.Length - testLength;
+                int maxLength = inputText.Length - testLength; //a substring maxima não pode superar o tamanho dela mesma. Se estou testando 10 chars de uma string com 11, basta 1 teste
                 for (int i = 0; i < maxLength; i++)
                 {
-                    var subStringToTest = inputText.Substring(i, testLength);
-                    var table = new HashTable(subStringToTest);
-                    for (int j = i + 1; j <= maxLength; j++)
+                    var subStringToTest = inputText.Substring(i, testLength); //montando a substring a testar com a string inteira
+                    var table = new HashTable(subStringToTest); //Contando quantas letras tem de cada na substring
+                    for (int j = i + 1; j <= maxLength; j++) //Testa a string original do tamanho máx possível (se tamanho substrs==3 e str==5, não precisa testar 4)
                     {
                         var subString = inputText.Substring(j, testLength);
-                        int found = table.CountChars(subString);
-                        if (found == subString.Length) foundAnagrams++;
+                        int found = table.CountChars(subString); //Conta carateres na substring tirada da string total (aquela que vou comparara com a substring de teste)
+                        if (found == subString.Length) foundAnagrams++; //se forem igual, achei, não importa a ordem dos caracteres
                     }
                 }
             }
@@ -72,6 +72,15 @@ namespace SherlockAnagramSolution
         public static string ProduceInputFile()
         {
             StringBuilder str = new StringBuilder();
+            str.AppendLine(MeasureMethod("aabbc")); //2
+            str.AppendLine(MeasureMethod("bbccde")); //2
+            str.AppendLine(MeasureMethod("dddddd")); //35
+            str.AppendLine(MeasureMethod("acacac")); //21
+            str.AppendLine(MeasureMethod("dededede")); //21
+            str.AppendLine(MeasureMethod("aabbccdd")); //21
+            str.AppendLine(MeasureMethod("acacacacac")); //21
+            str.AppendLine(MeasureMethod("bbeeffggij")); //21
+            str.AppendLine(MeasureMethod("bbbbbbbbbbbbbbbbbbbbbb")); //21
             str.AppendLine(MeasureMethod("abba")); //4
             str.AppendLine(MeasureMethod("abcd")); //0
             str.AppendLine(MeasureMethod("ifailuhkqq")); //3
