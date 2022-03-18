@@ -18,7 +18,10 @@ namespace SherlockAnagram
                 List<string> sublist = new List<string>();
                 for (int i = 0; i < vs.Length - 1; i++)
                 {
-                    sublist.Add(vs.Substring(i, j));
+                    if (i + j < vs.Length)
+                    {
+                        sublist.Add(vs.Substring(i, j));
+                    }
                 }
                 list.Add(sublist);
             }
