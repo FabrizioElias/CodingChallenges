@@ -1,12 +1,14 @@
 ﻿using CodingChallenges;
 
-var challengeName = "SherlockAnagram";
+var challengeName = "NumberToText";
 
 var inputFile = Path.Combine(Environment.CurrentDirectory, "Input", challengeName, "inputs.txt");
-var solutionFn = SherlockAnagramSolution.ChallengeClass.ProduceInputFile;
-var challengeFn = SherlockAnagram.ChallengeClass.ChallengeRunner;
+var solutionFn = NumberToTextSolution.ChallengeClass.ProduceInputFile;
+var challengeFn = NumberToText.ChallengeClass.ChallengeRunner;
+var results = await NumberToTextSolution.ChallengeClass.ParseInputFile(inputFile);
+var summaryFn = RunnerResult<decimal, string>.PrintSummary;
+var output = new ThreadResult<string>();
 
-var results = await SherlockAnagramSolution.ChallengeClass.ParseInputFile(inputFile);
 
 ConsoleKeyInfo key = new ConsoleKeyInfo('r', ConsoleKey.R, false, false, false);
 
@@ -26,7 +28,7 @@ do
     if (key.Key == ConsoleKey.S)
     {
         Console.WriteLine("***** Running solution *****");
-        Console.WriteLine(solutionFn());
+        Console.WriteLine(solutionFn(results));
     }
 } while (key.Key == ConsoleKey.R || key.Key == ConsoleKey.S);
 
@@ -35,7 +37,7 @@ void Run()
     foreach (var result in results)
     {
         var elapsedTime = TimeSpan.Zero;
-        ThreadResult output = new ThreadResult();
+        output.Clear();
         var thread = new Thread(() =>
         {
             try
@@ -75,6 +77,6 @@ void Run()
     }
     if (key.Key == ConsoleKey.S)
     {
-        Console.WriteLine(RunnerResult.PrintSummary(results));
+        Console.WriteLine(summaryFn(results));
     }
 }
