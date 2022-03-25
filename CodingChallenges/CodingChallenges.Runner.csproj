@@ -24,6 +24,12 @@
     <Compile Update="Sources\02-SherlockAnagram\Solution.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="Sources\045elkjfnbsekljfn\Challenge.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="Sources\045elkjfnbsekljfn\Solution.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="Sources\04-AlternatingString\Challenge.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>

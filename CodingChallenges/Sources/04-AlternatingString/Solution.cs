@@ -91,7 +91,7 @@ namespace AlternatingStringSolution
             var ticks = 0L;
             var output = 0;
             var accummulatedTime = TimeSpan.Zero;
-            var totalRuns = 5000;
+            var totalRuns = 250;
             output = ImplementThis(input);
             for (int i = 0; i < totalRuns; i++)
             {
