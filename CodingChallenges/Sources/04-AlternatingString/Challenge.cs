@@ -4,16 +4,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
-namespace NumberToText
+namespace AlternatingString
 {
     public static class ChallengeClass
     {
-        public static string ImplementThis(decimal s)
+        public static int ImplementThis(string input)
         {
-            return "YES";
+            return 0;
         }
 
-        public static ThreadResult<string> ChallengeRunner(decimal input)
+        public static ThreadResult<int> ChallengeRunner(string input)
         {
             var accummulatedTime = TimeSpan.Zero;
             var stopwatch = new Stopwatch();
@@ -32,7 +32,7 @@ namespace NumberToText
                     stopwatch.Reset();
                 }
             }
-            return new ThreadResult<string> { Output = output, ElapsedTime = accummulatedTime / 5000 };
+            return new ThreadResult<int> { Output = output, ElapsedTime = accummulatedTime / 5000 };
         }
     }
 }

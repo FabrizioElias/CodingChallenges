@@ -1,13 +1,13 @@
 ﻿using CodingChallenges;
 
-var challengeName = "NumberToText";
+var challengeName = "04-AlternatingString";
 
 var inputFile = Path.Combine(Environment.CurrentDirectory, "Input", challengeName, "inputs.txt");
-var solutionFn = NumberToTextSolution.ChallengeClass.ProduceInputFile;
-var challengeFn = NumberToText.ChallengeClass.ChallengeRunner;
-var results = await NumberToTextSolution.ChallengeClass.ParseInputFile(inputFile);
-var summaryFn = RunnerResult<decimal, string>.PrintSummary;
-var output = new ThreadResult<string>();
+var solutionFn = AlternatingStringSolution.ChallengeClass.ProduceInputFile;
+var challengeFn = AlternatingString.ChallengeClass.ChallengeRunner;
+var results = await AlternatingStringSolution.ChallengeClass.ParseInputFile(inputFile);
+var summaryFn = RunnerResult<string, int>.PrintSummary;
+var output = new ThreadResult<int>();
 
 
 ConsoleKeyInfo key = new ConsoleKeyInfo('r', ConsoleKey.R, false, false, false);
