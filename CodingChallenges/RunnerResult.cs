@@ -42,7 +42,7 @@ namespace CodingChallenges
     }
     public class RunnerResult<TInput, TOutput>
     {
-        public TInput Input { get; set; }
+        public TInput[] Input { get; set; }
         public TimeSpan TargetTime { get; set; }
         public TOutput ExpectedOutput { get; set; }
         public TOutput Output { get; set; }
@@ -70,12 +70,7 @@ namespace CodingChallenges
         {
             if (Input == null)
                 return "No inputs";
-            StringBuilder str = new StringBuilder();
-            if (Input.GetType().IsArray)
-                str.Append(string.Join(", ", Input));
-            else
-                str.Append($"{Input}");
-            return str.ToString();
+            return string.Join(", ", Input);
         }
     }
 }

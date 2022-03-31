@@ -84,7 +84,7 @@ namespace AlternatingStringSolution
             return str.ToString();
         }
 
-        private static string MeasureMethod(string input)
+        private static string MeasureMethod(string[] input)
         {
             var stopwatch = new Stopwatch();
 
@@ -92,13 +92,13 @@ namespace AlternatingStringSolution
             var output = 0;
             var accummulatedTime = TimeSpan.Zero;
             var totalRuns = 250;
-            output = ImplementThis(input);
+            output = ImplementThis(input[0]);
             for (int i = 0; i < totalRuns; i++)
             {
                 try
                 {
                     stopwatch.Start();
-                    output = ImplementThis(input);
+                    output = ImplementThis(input[0]);
                     stopwatch.Stop();
                     accummulatedTime += stopwatch.Elapsed;
                     Utility.ReportProgress(i, totalRuns, input);
@@ -123,7 +123,7 @@ namespace AlternatingStringSolution
                 return new RunnerResult<string, int>
                 {
                     TargetTime = TimeSpan.FromMilliseconds(double.Parse(split[0])),
-                    Input = split[1], //This type must be the same as the type in ImplementThis,
+                    Input = new string[] { split[1] }, //This type must be the same as the type in ImplementThis,
                     ExpectedOutput = int.Parse(split[2])
                 };
             }).ToList();

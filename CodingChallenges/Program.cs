@@ -1,12 +1,12 @@
 ﻿using CodingChallenges;
 
-var challengeName = "04-AlternatingString";
+var challengeName = "05-BobbysChocolate";
 
 var inputFile = Path.Combine(Environment.CurrentDirectory, "Input", challengeName, "inputs.txt");
-var solutionFn = AlternatingStringSolution.ChallengeClass.ProduceInputFile;
-var challengeFn = AlternatingString.ChallengeClass.ChallengeRunner;
-var results = await AlternatingStringSolution.ChallengeClass.ParseInputFile(inputFile);
-var summaryFn = RunnerResult<string, int>.PrintSummary;
+var solutionFn = BobbysChocolateSolution.ChallengeClass.ProduceInputFile;
+var challengeFn = BobbysChocolate.ChallengeClass.ChallengeRunner;
+var results = await BobbysChocolateSolution.ChallengeClass.ParseInputFile(inputFile);
+var summaryFn = RunnerResult<int, int>.PrintSummary;
 var output = new ThreadResult<int>();
 
 
@@ -28,7 +28,17 @@ do
     if (key.Key == ConsoleKey.S)
     {
         Console.WriteLine("***** Running solution *****");
-        Console.WriteLine(solutionFn(results));
+        var result = solutionFn(results);
+        Console.WriteLine(result.resultFile);
+        Console.WriteLine($"Corrects: {result.corrects} / Total: {results.Count}");
+        if (result.wrongs.Any())
+        {
+            Console.WriteLine($"***** Wrong test cases *****");
+            foreach (var wrong in result.wrongs)
+            {
+                Console.WriteLine(wrong);
+            }
+        }
     }
 } while (key.Key == ConsoleKey.R || key.Key == ConsoleKey.S);
 
