@@ -14,10 +14,11 @@ namespace BobbysChocolateSolution
          *
          * The function is expected to return an INTEGER.
          * The function accepts following parameters:
-         *  1. INTEGER n Bobby's initial amount of money 
+         *  1. INTEGER n Bobby's initial amount of money
          *  2. INTEGER c the cost of a chocolate bar 1 <= Bobby's initial amount of money <= 10000
-         *  3. INTEGER m the number of wrappers he can turn in for a free bar 2 <= m <= Bobby's initial amount of money 
+         *  3. INTEGER m the number of wrappers he can turn in for a free bar 2 <= m <= Bobby's initial amount of money
          */
+
         public static int ImplementThis_NonRecursive(int n, int c, int m)
         {
             var initialMoney = n;
@@ -115,7 +116,7 @@ namespace BobbysChocolateSolution
             var stopwatch = new Stopwatch();
 
             var accummulatedTime = TimeSpan.Zero;
-            var totalRuns = 10;
+            var totalRuns = 20;
             var output = ImplementThis(input.Input[0], input.Input[1], input.Input[2]);
             for (int i = 0; i < totalRuns; i++)
             {
