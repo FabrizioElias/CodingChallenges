@@ -18,19 +18,30 @@ namespace BirdsSolution
          * There are two each of types 1 and 2, and one sighting of type 3. Pick the lower of the two types seen twice: type 1.
          */
 
-        public static int ImplementThis_NonRecursive(int[] arr)
+        public static int ImplementThis_NoLinq(int[] arr)
         {
-            var counter = new Dictionary<int, int>();
+            var sigthings = new Bird[5];
+            for (int i = 0; i < sigthings.Length; i++)
+            {
+                sigthings[i] = new Bird { Id = i + 1 };
+            }
             foreach (var bird in arr)
             {
-                if (counter.ContainsKey(bird))
-                    counter[bird] += 1;
-                else
-                    counter.Add(bird, 1);
+                sigthings[bird - 1].Count++;
             }
+            var highSparrow = new Bird();
+            foreach (var sight in sigthings)
+            {
+                if (highSparrow.Count < sight.Count)
+                    highSparrow = sight;
+            }
+            return highSparrow.Id;
+        }
 
-            var maxSigthings = counter.Max(kvp => kvp.Value);
-            return counter.Where(kvp => kvp.Value == maxSigthings).Min(kvp => kvp.Key);
+        public class Bird
+        {
+            public int Id { get; set; }
+            public int Count { get; set; }
         }
 
         public static int ImplementThis(int[] arr)
@@ -75,14 +86,14 @@ namespace BirdsSolution
             var stopwatch = new Stopwatch();
 
             var accummulatedTime = TimeSpan.Zero;
-            var totalRuns = 20;
-            var output = ImplementThis(input.Input);
+            var totalRuns = 1;
+            var output = ImplementThis_NoLinq(input.Input);
             for (int i = 0; i < totalRuns; i++)
             {
                 try
                 {
                     stopwatch.Start();
-                    output = ImplementThis(input.Input);
+                    output = ImplementThis_NoLinq(input.Input);
                     stopwatch.Stop();
                     accummulatedTime += stopwatch.Elapsed;
                     Utility.ReportProgress(i, totalRuns, $"{string.Join(", ", input.Input)} -> {output}");
