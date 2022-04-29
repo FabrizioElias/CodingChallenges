@@ -1,14 +1,13 @@
 ﻿using CodingChallenges;
 
-var challengeName = "05-BobbysChocolate";
+var challengeName = "06-Birds";
 
 var inputFile = Path.Combine(Environment.CurrentDirectory, "Input", challengeName, "inputs.txt");
-var solutionFn = BobbysChocolateSolution.ChallengeClass.ProduceInputFile;
+var solutionFn = BirdsSolution.ChallengeClass.ProduceInputFile;
 var challengeFn = BobbysChocolate.ChallengeClass.ChallengeRunner;
 var results = await BobbysChocolateSolution.ChallengeClass.ParseInputFile(inputFile);
 var summaryFn = RunnerResult<int, int>.PrintSummary;
 var output = new ThreadResult<int>();
-
 
 ConsoleKeyInfo key = new ConsoleKeyInfo('r', ConsoleKey.R, false, false, false);
 
